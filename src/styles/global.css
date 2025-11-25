@@ -1,0 +1,368 @@
+/* ===== Reset-ish ===== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: radial-gradient(circle at top, #1f2933 0, #020617 55%);
+  color: #f9fafb;
+}
+
+/* ===== Layout ===== */
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen {
+  width: 100%;
+  max-width: 480px;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .screen {
+    max-width: 540px;
+  }
+}
+
+/* ===== Typography ===== */
+
+.title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #cbd5f5;
+  margin-bottom: 1.5rem;
+}
+
+.text {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+
+.text.small {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.highlight-name {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0.75rem;
+}
+
+/* ===== Card ===== */
+
+.card {
+  background: rgba(15, 23, 42, 0.94);
+  border-radius: 1.1rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 1.25rem 1.2rem 1.35rem;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* Slight variants */
+
+.card-log {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* ===== Form elements ===== */
+
+.field-group {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.35rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.6rem;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #f9fafb;
+  font-size: 0.95rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+}
+
+/* ===== Pills (player count) ===== */
+
+.pill-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pill {
+  flex: 1;
+  padding: 0.45rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.05s ease;
+}
+
+.pill:hover {
+  border-color: #60a5fa;
+}
+
+.pill-active {
+  background: linear-gradient(135deg, #38bdf8, #4f46e5);
+  border-color: transparent;
+  color: #0b1120;
+  font-weight: 600;
+  transform: translateY(-1px);
+}
+
+/* ===== Player list ===== */
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.player-label {
+  width: 1.5rem;
+  text-align: right;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* ===== Buttons ===== */
+
+button {
+  font-family: inherit;
+}
+
+.primary-button,
+.secondary-button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.8rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 0.9rem;
+  transition: transform 0.05s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #022c22;
+  box-shadow: 0 12px 25px rgba(16, 185, 129, 0.28);
+}
+
+.primary-button:hover {
+  box-shadow: 0 16px 30px rgba(16, 185, 129, 0.35);
+}
+
+.secondary-button {
+  background: #020617;
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+}
+
+.secondary-button:hover {
+  border-color: #60a5fa;
+}
+
+/* Two-button row (winner screen) */
+
+.button-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.button-row .primary-button,
+.button-row .secondary-button {
+  margin-top: 0;
+}
+
+/* ===== Choice buttons (Alliance / Loyalty) ===== */
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.choice-button {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.9rem;
+  border: 1px solid #475569;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.98rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.05s ease;
+}
+
+.choice-button:hover {
+  border-color: #38bdf8;
+}
+
+.choice-button-active {
+  background: linear-gradient(135deg, #38bdf8, #4f46e5);
+  border-color: transparent;
+  color: #0b1120;
+  font-weight: 600;
+  transform: translateY(-1px);
+}
+
+.choice-random {
+  font-style: italic;
+}
+
+/* ===== Error / feedback ===== */
+
+.error-text {
+  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  color: #fca5a5;
+}
+
+/* ===== Lists ===== */
+
+.list {
+  list-style: none;
+  margin: 0.4rem 0 0.6rem;
+  padding-left: 0;
+}
+
+.list-item {
+  font-size: 0.95rem;
+  color: #e5e7eb;
+}
+
+/* ===== Log ===== */
+
+.log-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.log-item {
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.8);
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.log-type {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+}
+
+.log-time {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.log-body {
+  font-size: 0.9rem;
+}
+
+.log-text {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+.log-text.small {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin-top: 0.1rem;
+}
+
+/* ===== Screen-specific small tweaks (optional) ===== */
+
+.screen-pass .card,
+.screen-alliance .card,
+.screen-loyalty .card,
+.screen-reveal .card,
+.screen-winner .card,
+.screen-log .card {
+  margin-top: 0.75rem;
+}
+
+/* ===== Button press interaction ===== */
+
+.primary-button:active,
+.secondary-button:active,
+.pill:active,
+.choice-button:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: none;
+}
