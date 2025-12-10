@@ -41,7 +41,10 @@ function PlayerSetup({ goTo }) {
     e.preventDefault();
 
     // Basic validation
-    if (numPlayers < 3 || numPlayers > 5) return;
+    if (numPlayers < 2 || numPlayers > 5) return;
+
+    // Determine mode: 2-player trust vs 3–5 player alliance game
+    const mode = numPlayers === 2 ? "twoPlayer" : "multiPlayer";
 
     // Convert buy-ins to numbers (you can later expose these as inputs)
     const cleanPrimary = Number(primaryBuyIn) || 0;
@@ -84,17 +87,17 @@ function PlayerSetup({ goTo }) {
         }
       }
 
+      // Pick a random player to eliminate
       const randomIndex = Math.floor(Math.random() * initialPlayers.length);
       const eliminatedPlayer = initialPlayers[randomIndex];
 
-      initialPlayers = initialPlayers.map((p) =>
-        p.id === eliminatedPlayer.id
+      initialPlayers = initialPlayers.map((p, index) =>
+        index === randomIndex
           ? { ...p, eliminated: true, lostPrimary: true }
           : p
       );
 
       eliminatedRandomFirstRoundId = eliminatedPlayer.id;
-      eliminatedInitialIds = [eliminatedPlayer.id];
 
       log.push({
         type: "randomElimination4p",
@@ -159,16 +162,14 @@ function PlayerSetup({ goTo }) {
       startingPhase = "post-random-elimination";
     }
 
-    // Starting player: first non-eliminated player
-    const startingPlayerIndex = (() => {
-      const idx = initialPlayers.findIndex((p) => !p.eliminated);
-      return idx === -1 ? 0 : idx;
-    })();
+    // Decide which player starts making decisions
+    const startingPlayerIndex = 0;
 
     // Initial game state for a NEW game
     const initialState = {
       settings: {
         numPlayers,
+        mode,
         primaryBuyIn: cleanPrimary,
         secondaryBuyIn: cleanSecondary,
       },
@@ -184,9 +185,24 @@ function PlayerSetup({ goTo }) {
       // 4- & 5-player initial elimination metadata
       eliminatedRandomFirstRoundId,
       eliminatedInitialIds,
+
+      // 2-player trust mode fields
+      twoPlayerPot: 0,
+      twoPlayerRound: 1,
+      twoPlayerChoices: [],
     };
 
-    goTo("pass", initialState);
+    if (mode === "twoPlayer") {
+      // Go straight into the 2-player trust flow via PassDevice
+      goTo("pass", {
+        ...initialState,
+        currentPlayerIndex: 0,
+        lastPhase: "twoPlayerInit",
+      });
+    } else {
+      // Existing 3/4/5-player flow
+      goTo("pass", initialState);
+    }
   };
 
   return (
@@ -201,7 +217,7 @@ function PlayerSetup({ goTo }) {
         <div className="field-group">
           <label className="label">Number of players/Teams</label>
           <div className="pill-row">
-            {[3, 4, 5].map((n) => (
+            {[2, 3, 4, 5].map((n) => (
               <button
                 key={n}
                 type="button"
@@ -231,8 +247,10 @@ function PlayerSetup({ goTo }) {
           </div>
         </div>
 
+        {/* Buy-ins are currently fixed, but left in state for future extension */}
+
         <button type="submit" className="primary-button">
-          Start Game
+          Start game
         </button>
 
         <button

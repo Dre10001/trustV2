@@ -9,6 +9,8 @@ import OutcomeReveal from "./components/OutcomeReveal.jsx";
 import GameLog from "./components/GameLog.jsx";
 import WinnerScreen from "./components/WinnerScreen.jsx";
 import Rules from "./components/Rules.jsx";
+import TwoPlayerRound from "./components/TwoPlayerRound.jsx";
+import TwoPlayerReveal from "./components/TwoPlayerReveal.jsx";
 
 // -----------------------------------------------------------------------------
 // Full clean initial state — everything that must be wiped before each new game
@@ -31,8 +33,13 @@ const initialGameState = {
   currentPlayerIndex: 0,
   lastPhase: "init",
 
-  // New: track how many times we've tried to form an alliance this round
+  // Track how many times we've tried to form an alliance this round
   allianceAttempt: 0,
+
+  // 2-player trust mode
+  twoPlayerPot: 0,
+  twoPlayerRound: 1,
+  twoPlayerChoices: [],
 };
 
 function App() {
@@ -82,6 +89,14 @@ function App() {
 
       {screen === "reveal" && (
         <OutcomeReveal goTo={goTo} gameState={gameState} />
+      )}
+
+      {screen === "twoPlayerRound" && (
+        <TwoPlayerRound goTo={goTo} gameState={gameState} />
+      )}
+
+      {screen === "twoPlayerReveal" && (
+        <TwoPlayerReveal goTo={goTo} gameState={gameState} />
       )}
 
       {screen === "winner" && (

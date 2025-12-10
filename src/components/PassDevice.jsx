@@ -26,6 +26,8 @@ function PassDevice({ goTo, gameState }) {
 
   const lastPhase = gameState?.lastPhase || "init";
   const numPlayers = gameState?.settings?.numPlayers || players.length || 0;
+  const mode = gameState?.settings?.mode || "multiPlayer";
+
   const currentRound =
     typeof gameState?.currentRound === "number"
       ? gameState.currentRound
@@ -58,13 +60,8 @@ function PassDevice({ goTo, gameState }) {
     return p ? p.name : `Player ${id}`;
   };
 
-  // Figure out where we are in the game flow
-  const finalistsWithChoices = loyaltyChoices.filter((c) =>
-    finalistsIds.includes(c.playerId)
-  );
-
-  const hasFinalists = finalistsIds.length === 2;
-  const loyaltyInProgress = hasFinalists && finalistsWithChoices.length < 2;
+  const loyaltyInProgress =
+    finalistsIds.length === 2 && loyaltyChoices.length > 0;
 
   const shouldGoToLoyalty = (() => {
     if (lastPhase === "allianceResolved") return true;
@@ -74,6 +71,16 @@ function PassDevice({ goTo, gameState }) {
   })();
 
   const handleContinue = () => {
+    // 2-player trust mode: always go to TwoPlayerRound
+    if (mode === "twoPlayer") {
+      goTo("twoPlayerRound", {
+        currentPlayerIndex: currentIndex,
+        lastPhase: "twoPlayerRound",
+      });
+      return;
+    }
+
+    // Existing 3/4/5-player flow
     if (shouldGoToLoyalty) {
       goTo("loyalty", {
         currentPlayerIndex: currentIndex,
@@ -99,13 +106,13 @@ function PassDevice({ goTo, gameState }) {
   const showRandomElimNote4p =
     numPlayers === 4 &&
     currentRound === 2 &&
-    eliminatedRandomFirstRoundId != null;
+    typeof eliminatedRandomFirstRoundId === "number";
 
   const eliminatedRandomName4p = showRandomElimNote4p
     ? getPlayerName(eliminatedRandomFirstRoundId)
     : null;
 
-  // 5-player: after random elimination, on Round 2, show which TWO players were knocked out
+  // 5-player: after random eliminations, on Round 2, show who was knocked out
   const showRandomElimNote5p =
     numPlayers === 5 &&
     currentRound === 2 &&
