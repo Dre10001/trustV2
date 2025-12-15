@@ -41,6 +41,15 @@ body {
   }
 }
 
+/* ===== Rules screen scrolling ===== */
+
+.screen-rules {
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 2rem; /* ensures back button is reachable */
+}
+
+
 /* ===== Typography ===== */
 
 .title {
